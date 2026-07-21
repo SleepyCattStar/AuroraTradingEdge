@@ -28,6 +28,6 @@ int main(void){
     producerThread.join();
     consumerThread.join();
 
-    std::cout << "[ENGINE] Engine Shutdown" << "\n";
+    std::cout << "[ENGINE] Engine Shutdown" << "\n\n";
 
 }

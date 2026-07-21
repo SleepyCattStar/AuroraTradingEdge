@@ -17,7 +17,11 @@ MarketEvent MarketDataProducer::generateMarketEvent(){
     std::string symbol = "BTC";
     Exchange exchange = Exchange::BINANCE;
     EventType event_type = EventType::TRADE;
-    auto timestamp = std::chrono::steady_clock::now();
+    // change in the type of timestamp
+
+    // auto timestamp = std::chrono::steady_clock::now();
+    auto timestamp = std::chrono::system_clock::now();
+
 
     // rng 
     static std::random_device rd;

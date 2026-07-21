@@ -1,5 +1,6 @@
 #include "market/market_data_consumer.hpp"
 #include "market/market_data_producer.hpp"
+#include "analytics/market_analyzer.hpp"
 #include "safe_queue.hpp"
 
 

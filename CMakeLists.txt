@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(AuroraEngine)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories(include)
+
+add_executable(aurora
+    src/main.cpp
+    src/market/market_data_producer.cpp
+    src/market/market_data_consumer.cpp
+)

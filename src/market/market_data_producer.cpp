@@ -1,6 +1,8 @@
-#include "include/market/market_data_producer.hpp"
-#include "include/safe_queue.hpp"
-#include "include/market/market_event.hpp"
+#include "market/market_data_producer.hpp"
+#include "safe_queue.hpp"
+#include "market/market_event.hpp"
+
+// include/ directory is included in the CMake file so we dont have to specify that as the part of the path
 
 #include<random>
 #include<chrono>

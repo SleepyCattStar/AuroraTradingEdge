@@ -13,3 +13,11 @@ add_executable(queue_benchmark
     ../src/market/market_data_consumer.cpp
     ../src/utils/formatter.cpp
 )
+
+add_executable(pipeline_benchmark
+    pipeline_benchmark.cpp
+    ../src/market/market_data_producer.cpp
+    ../src/core/dispatcher.cpp
+    ../src/analytics/market_analyzer.cpp
+    ../src/utils/formatter.cpp
+)

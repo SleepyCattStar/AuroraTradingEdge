@@ -12,4 +12,6 @@ add_executable(aurora
     src/market/market_data_producer.cpp
     src/market/market_data_consumer.cpp
     src/utils/formatter.cpp
+    src/core/dispatcher.cpp
+    src/analytics/market_analyzer.cpp
 )

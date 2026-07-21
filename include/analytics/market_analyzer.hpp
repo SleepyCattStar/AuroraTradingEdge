@@ -7,7 +7,7 @@ class MarketAnalyzer{
         bool running;
         ThreadSafeQueue<MarketEvent> & queue;   
         double total_volume;
-        double total_trade_volume;
+        double total_trade_value;
         int trade_count;
     
     public:

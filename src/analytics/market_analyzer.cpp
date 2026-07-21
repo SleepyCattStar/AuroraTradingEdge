@@ -18,7 +18,7 @@ void MarketAnalyzer::processEvent(const MarketEvent& event){
 
     //implementing VMAP, Essentially a weighted average of price , volume
     total_volume+= event.quantity;
-    total_trade_volume+= event.quantity * event.price;
+    total_trade_value+= event.quantity * event.price;
     trade_count++;
 }
 
@@ -30,7 +30,7 @@ void MarketAnalyzer::run(){
             processEvent(event);
         }
     }
-    if (trade_count % 1000 == 0)
+    if (trade_count % 10 == 0)
         {
             double vwap = total_trade_value / total_volume;
             // printing the vwap

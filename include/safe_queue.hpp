@@ -34,6 +34,7 @@ class ThreadSafeQueue{
             return true;
         }
 
+        // used for releasing the threads, that may have been blocked in the pop() operation
         void shutdown(){
             {
                 lock_guard<mutex> lock(mtx);

@@ -1,6 +1,7 @@
 #pragma once
 #include "safe_queue.hpp"
 #include "market/market_event.hpp"
+#include "analytics/analyzer_stats.hpp"
 
 class MarketAnalyzer{
     private:
@@ -11,6 +12,8 @@ class MarketAnalyzer{
         int trade_count;
     
     public:
+        
+        AnalyzerStats getStats() const;   // getter
         MarketAnalyzer(ThreadSafeQueue<MarketEvent>& queue);
         void processEvent(const MarketEvent& event);
         void run();

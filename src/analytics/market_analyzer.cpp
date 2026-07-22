@@ -20,6 +20,30 @@ void MarketAnalyzer::processEvent(const MarketEvent& event){
     total_volume+= event.quantity;
     total_trade_value+= event.quantity * event.price;
     trade_count++;
+
+    if(trade_count% 10 == 0){
+        AnalyzerStats stats = getStats();
+        std::cout << "=========================\n";
+        std::cout << "Trades : " << stats.trade_count << "\n";
+        std::cout << "Volume : " << stats.total_volume << "\n";
+        std::cout << "VWAP   : " << stats.vwap << "\n";
+        std::cout << "=========================\n";
+    }
+}
+
+AnalyzerStats MarketAnalyzer::getStats() const{
+    AnalyzerStats stats;
+
+    stats.trade_count = trade_count;
+    stats.total_volume = total_volume;
+    stats.total_trade_value = total_trade_value;
+
+    if (total_volume == 0)
+        stats.vwap = 0.0;
+    else
+        stats.vwap = total_trade_value / total_volume;
+
+    return stats;
 }
 
 void MarketAnalyzer::run(){
@@ -30,6 +54,7 @@ void MarketAnalyzer::run(){
             processEvent(event);
         }
     }
+    /*
     if (trade_count % 10 == 0)
         {
             double vwap = total_trade_value / total_volume;
@@ -40,9 +65,12 @@ void MarketAnalyzer::run(){
             std::cout << "VWAP   : " << vwap << "\n";
             std::cout << "=========================\n";
         }
+    */
     
 }
 
 void MarketAnalyzer::stop(){
     running = false;
 }
+
+

@@ -1,5 +1,8 @@
+// Functional Benchmark (ESSENTIALLY VERIFYING THE WORKING OF OUR PIPELINE)
+
 #include "market/market_data_producer.hpp"
 #include "analytics/market_analyzer.hpp"
+#include "analytics/analyzer_stats.hpp"
 #include "core/dispatcher.hpp"
 #include "safe_queue.hpp"
 
@@ -34,15 +37,25 @@ int main(){
     dispatcher_thread.join();
     analyzer_thread.join();
 
+    AnalyzerStats stats = analyzer.getStats();
+    // trade_count, total_volume, total_trade_value, vwap
     auto stop = std::chrono::steady_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
         stop - start
     );
 
+    double seconds = duration.count() / 1'000'000.0;
+    double throughput = stats.trade_count / seconds;
+
     std::cout << "=================================\n";
     std::cout << " Pipeline Benchmark\n";
     std::cout << "=================================\n";
-    std::cout << "Runtime : "<< duration.count()<< " us\n";
-    std::cout << "=================================\n";
+
+    std::cout << "Runtime          : "<< seconds<< " seconds\n";
+    std::cout << "Trades processed : "<< stats.trade_count<< "\n";
+    std::cout << "Throughput       : "<< throughput<< " trades/sec\n";
+    std::cout << "Total Volume     : "<< stats.total_volume<< "\n";
+    std::cout << "VWAP             : "<< stats.vwap<< "\n";
+    std::cout << "=================================\n\n";
 }

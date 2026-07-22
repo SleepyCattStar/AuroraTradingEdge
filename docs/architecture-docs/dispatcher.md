@@ -101,20 +101,46 @@ Version 1 only supports:
 
 No routing or filtering is performed.
 
+
+**<H2> IMPLEMENTED this version (latest) </H2>**
+
+## Version 2 (Current)
+
+### Improvements
+
+- Multiple output queues
+- Publish–Subscribe architecture 
+- Fan-out event distribution
+- Easy subscriber registration using `addSubscriber()`
+- Backward-compatible with a single subscriber
+
+**Extensibility: A new consumer can be attached without modifying the dispatcher logic.**
+
+### Updated Architecture
+
+Producer
+    │
+    ▼
+Input Queue
+    │
+    ▼
+Dispatcher
+    │
+    ├ - - - -► Analysis Queue
+    ├ - - - -► Logger Queue
+    ├ - -- - ► AI Queue
+    └- - - - ► Metrics Queue
+
+AND Any other service that would need the data from the queue.
 ---
 
 ## Planned Improvements
 
-Version 2
+Version 3
 
-- Multiple output queues
-- Publish-Subscribe architecture
 - Symbol-based routing
 - Exchange-based routing
 - Event filtering
-
-Version 3
-
 - Priority queues
 - Dynamic subscriber registration
 - Metrics (events/sec, queue latency)

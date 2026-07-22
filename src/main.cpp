@@ -15,7 +15,8 @@ int main(void){
 
     MarketDataProducer producer(market_queue);
 
-    Dispatcher dispatcher(market_queue,analysis_queue);
+    Dispatcher dispatcher(market_queue);
+    dispatcher.addSubscriber(analysis_queue);
     // here the analysis_queue is the output queue, that is accessed by other functions too.
 
     // market analyser will provide info based on the analysis_queue

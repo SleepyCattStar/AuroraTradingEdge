@@ -17,7 +17,10 @@ int main(){
     ThreadSafeQueue<MarketEvent> analysis_queue;
 
     MarketDataProducer producer(market_queue);
-    Dispatcher dispatcher(market_queue, analysis_queue);
+
+    // NEW DISPATCHER ARCHITECTURE
+    Dispatcher dispatcher(market_queue);
+    dispatcher.addSubscriber(analysis_queue);
     MarketAnalyzer analyzer(analysis_queue);
 
     auto start = std::chrono::steady_clock::now();

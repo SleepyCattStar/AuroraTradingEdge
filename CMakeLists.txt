@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-
+target_compile_definitions(aurora PRIVATE PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
 project(AuroraEngine)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -14,4 +14,5 @@ add_executable(aurora
     src/utils/formatter.cpp
     src/core/dispatcher.cpp
     src/analytics/market_analyzer.cpp
+    src/logger/market_logger.cpp
 )

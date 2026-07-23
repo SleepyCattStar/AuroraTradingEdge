@@ -16,6 +16,47 @@ MarketLogger::MarketLogger(ThreadSafeQueue<MarketEvent>& queue,
 };
 */
 
+MarketLogger::MarketLogger(ThreadSafeQueue<MarketEvent>& queue,
+                           const std::string& filename)
+    : queue(queue),
+      running(false)
+{
+    namespace fs = std::filesystem;
+    fs::path log_dir = fs::path(PROJECT_ROOT) / "logs";
+    if (!fs::exists(log_dir))
+    {
+        fs::create_directory(log_dir);
+    }
+
+    fs::path log_file = log_dir / filename;
+
+    if (fs::exists(log_file))
+    {
+        std::string stem = log_file.stem().string();
+        std::string extension = log_file.extension().string();
+        int counter = 1;
+        while (true)
+        {
+            fs::path candidate =
+                log_dir / (stem + "_" + std::to_string(counter) + extension);
+
+            if (!fs::exists(candidate))
+            {
+                log_file = candidate;
+                break;
+            }
+            counter++;
+        }
+    }
+    file.open(log_file);
+    if (!file.is_open())
+    {
+        throw std::runtime_error("Failed to open log file.");
+    }
+
+    file << "timestamp,symbol,exchange,event_type,price,quantity\n";
+}
+
 
 void MarketLogger::logEvent(const MarketEvent& event)
     {

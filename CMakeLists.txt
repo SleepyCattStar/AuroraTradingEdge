@@ -19,6 +19,7 @@ add_executable(aurora
     src/analytics/market_analyzer.cpp
     src/logger/market_logger.cpp
     src/market/binance_market_data_producer.cpp
+    src/logger/engine_logger.cpp
 )
 
 

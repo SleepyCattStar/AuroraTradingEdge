@@ -1,4 +1,5 @@
 #include "market/binance_market_data_producer.hpp"
+#include "logger/engine_logger.hpp"
 
 #include <iostream>
 #include <string>
@@ -62,6 +63,7 @@ void BinanceMarketDataProducer::subscribe(){
     );
 
     std::cout << "[BINANCE] Subscribed to BTCUSDT trades.\n";
+    EngineLogger::info("Subscribed to BTCUSDT trades");
 }
 
 void BinanceMarketDataProducer::initialize_connection(){
@@ -147,18 +149,22 @@ void BinanceMarketDataProducer::run()
         {
             connect();
             std::cout << "[BINANCE] Connected\n";
+            EngineLogger::info("Connected to Binance Websocket.");
             subscribe();
             std::cout << "[BINANCE] Subscribed\n";
+            EngineLogger::info("Subcribed to Binance Websocket.");
             receive_messages();
         }
         catch (const std::exception& e)
         {
             std::cerr << "[BINANCE] Error: "<< e.what() << '\n';
+            EngineLogger::error("Error ");
         }
         cleanup();
         if (running)
         {
             std::cout << "[BINANCE] Reconnecting in 2 seconds...\n";
+            EngineLogger::warning("Reconnecting....");
             std::this_thread::sleep_for(
                 std::chrono::seconds(2)
             );

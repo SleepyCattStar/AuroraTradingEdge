@@ -125,14 +125,32 @@ void BinanceMarketDataProducer::cleanup(){
 
 
 
-void BinanceMarketDataProducer::run(){
+void BinanceMarketDataProducer::run()
+{
     running = true;
-    connect();
-    std::cout << "[BINANCE] Connected\n";
-    subscribe();
-    std::cout << "[BINANCE] Subscribed\n";
-    receive_messages();
-    cleanup();
+    while (running)
+    {
+        try
+        {
+            connect();
+            std::cout << "[BINANCE] Connected\n";
+            subscribe();
+            std::cout << "[BINANCE] Subscribed\n";
+            receive_messages();
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "[BINANCE] Error: "<< e.what() << '\n';
+        }
+        cleanup();
+        if (running)
+        {
+            std::cout << "[BINANCE] Reconnecting in 2 seconds...\n";
+            std::this_thread::sleep_for(
+                std::chrono::seconds(2)
+            );
+        }
+    }
 }
 
 void BinanceMarketDataProducer::stop(){

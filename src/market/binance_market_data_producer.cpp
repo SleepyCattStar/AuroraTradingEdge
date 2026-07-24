@@ -64,6 +64,10 @@ void BinanceMarketDataProducer::subscribe(){
     std::cout << "[BINANCE] Subscribed to BTCUSDT trades.\n";
 }
 
+void BinanceMarketDataProducer::initialize_connection(){
+    // implementing it later when making the reconnect system more robust
+}
+
 MarketEvent BinanceMarketDataProducer::parse_message(const std::string& message){
     //parses
     auto json = nlohmann::json::parse(message);
@@ -118,9 +122,18 @@ void BinanceMarketDataProducer::receive_messages(){
 }
 
 void BinanceMarketDataProducer::cleanup(){
-    websocket_stream.close(
-        websocket::close_code::normal
-    );
+    // websocket_stream.close(
+    //     websocket::close_code::normal
+    // );
+
+    try
+        {
+            websocket_stream.close(websocket::close_code::normal);
+        }
+    catch (...)
+        {
+            // error
+        }
 }
 
 

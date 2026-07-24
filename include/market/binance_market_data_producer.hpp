@@ -27,8 +27,12 @@ class BinanceMarketDataProducer : public LiveMarketDataProducer
 
 private:
     net::io_context io_context; // for async/sync i/o
+    
     ssl::context ssl_context; // for using wss://
     tcp::resolver resolver;  // resolve hostnames
+
+    // LATER
+    // std::unique_ptr<tcp::resolver> resolver;  // using unique_ptrs (useful for implementing a better reconnect system)
 
     // Secure WebSocket stream over TLS over TCP.
     websocket::stream<beast::ssl_stream<beast::tcp_stream>> websocket_stream;
@@ -36,6 +40,7 @@ private:
     void subscribe();
     void receive_messages();
     void cleanup();
+    void initialize_connection();
     MarketEvent parse_message(const std::string& message);
 
 public:

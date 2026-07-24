@@ -9,12 +9,14 @@
 
 // parent class LiveMarketDataProducer about the queue and running variable initialisation, so that this class can only deal with the ssl websocket connection.
 BinanceMarketDataProducer::BinanceMarketDataProducer(
-    ThreadSafeQueue<MarketEvent>& queue)
+    ThreadSafeQueue<MarketEvent>& queue,
+    const std::vector<std::string>& subscribed_symbols)
     : LiveMarketDataProducer(queue),
-      io_context(),
-      ssl_context(ssl::context::tls_client),
-      resolver(io_context),
-      websocket_stream(io_context, ssl_context)
+    subscribed_symbols(subscribed_symbols),
+    io_context(),
+    ssl_context(ssl::context::tls_client),
+    resolver(io_context),
+    websocket_stream(io_context, ssl_context)
 {
 }
 
@@ -23,6 +25,13 @@ BinanceMarketDataProducer::BinanceMarketDataProducer(
 
 void BinanceMarketDataProducer::connect(){
     // this is for resolving the dns by providing the host name, so that we can establish a websocket
+
+    ///////////////////////////////////////////////////////////////////
+    // TODO:
+    // Validate subscribed symbols using Binance ExchangeInfo REST API
+    // before opening the WebSocket connection.
+    ///////////////////////////////////////////////////////////////////
+
     auto endpoints = resolver.resolve(
         "stream.binance.com",
         "9443"
@@ -78,6 +87,7 @@ void BinanceMarketDataProducer::connect(){
 
 void BinanceMarketDataProducer::subscribe(){
     // READ network-flow.md to understand the entire working of the websocket
+    /*
     std::string message = R"(
     {
         "method":"SUBSCRIBE",
@@ -87,8 +97,25 @@ void BinanceMarketDataProducer::subscribe(){
         "id":1
     })";
 
-    // this is the .json that the websocket expects
+    */
 
+    // IMPLEMENTING MULTIPLE SYMBOL SUPPORT
+    nlohmann::json request;
+    request["method"] = "SUBSCRIBE";
+    request["params"] = nlohmann::json::array();
+    for (const auto& symbol : subscribed_symbols)
+    {
+        request["params"].push_back(symbol + "@trade");   // Eg. btcusdt@trade, ethusdt@trade
+        EngineLogger::info(
+            "Requesting subscription to " +
+            symbol +
+            "@trade"
+        );
+    }
+    request["id"] = 1;
+    std::string message = request.dump();
+    
+    // this is the .json that the websocket expects
     websocket_stream.write(
         net::buffer(message)
     );
@@ -138,6 +165,18 @@ void BinanceMarketDataProducer::receive_messages(){
         beast::flat_buffer buffer;
         websocket_stream.read(buffer);
         std::string message = beast::buffers_to_string(buffer.data());
+        auto json = nlohmann::json::parse(message);
+
+        if (json.contains("code"))
+            {
+                EngineLogger::error(
+                    "Subscription failed: " +
+                    json["msg"].get<std::string>()
+                );
+
+                continue;
+            }
+
         std::cout << message << '\n';
         // MarketEvent event = parse_message(message);
         // queue.push(event);

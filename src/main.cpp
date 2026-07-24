@@ -21,7 +21,21 @@ int main(void){
     MarketAnalyzer analyser(analysis_queue);
     MarketLogger logger(logger_queue, "market_data.csv");
     // MarketDataProducer producer(market_queue);
-    BinanceMarketDataProducer producer(market_queue);
+    // BinanceMarketDataProducer producer(market_queue);
+
+    // IMPLEMENTED MULTIPLE SYMBOLS SUPPORT
+    std::vector<std::string> symbols =
+    {
+        "btcusdt",
+        "ethusdt",
+        "solusdt",
+        "testingrandomusdt"
+    };
+
+    BinanceMarketDataProducer producer(
+        market_queue,
+        symbols
+    );
     Dispatcher dispatcher(market_queue);
     
     ///////////////////////////////////

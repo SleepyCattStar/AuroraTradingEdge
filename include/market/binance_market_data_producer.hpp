@@ -1,5 +1,7 @@
 #pragma once
 
+#include<vector>
+#include<string>
 #include "market/live_market_data_producer.hpp"
 #include <boost/asio.hpp>
 #include <boost/beast/core.hpp>
@@ -27,7 +29,6 @@ class BinanceMarketDataProducer : public LiveMarketDataProducer
 
 private:
     net::io_context io_context; // for async/sync i/o
-    
     ssl::context ssl_context; // for using wss://
     tcp::resolver resolver;  // resolve hostnames
 
@@ -42,11 +43,13 @@ private:
     void cleanup();
     void initialize_connection();
     MarketEvent parse_message(const std::string& message);
+    std::vector<std::string> subscribed_symbols;
 
 public:
 
     explicit BinanceMarketDataProducer(
-        ThreadSafeQueue<MarketEvent>& queue);
+        ThreadSafeQueue<MarketEvent>& queue,
+        const std::vector<std::string>& subscribed_symbols);
 
     void run() override;
     void stop() override;

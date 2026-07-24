@@ -1,6 +1,6 @@
 #include "logger/market_logger.hpp"
 #include "utils/formatter.hpp"
-
+#include<iostream>
 
 namespace fs = std::filesystem;
 
@@ -72,7 +72,7 @@ void MarketLogger::logEvent(const MarketEvent& event)
 
 
 void MarketLogger::run(){
-
+    std::cout << "[LOGGER] Event received\n";
     running = true;
     while(running){
         MarketEvent event;

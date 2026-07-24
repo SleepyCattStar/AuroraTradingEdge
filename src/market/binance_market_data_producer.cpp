@@ -1,6 +1,6 @@
 #include "market/binance_market_data_producer.hpp"
 #include "logger/engine_logger.hpp"
-
+#include<algorithm>
 #include <iostream>
 #include <string>
 // #include <nlohmann/json.hpp>
@@ -142,6 +142,7 @@ void BinanceMarketDataProducer::cleanup(){
 
 void BinanceMarketDataProducer::run()
 {
+    int reconnect_attempt = 0;
     running = true;
     while (running)
     {
@@ -154,20 +155,48 @@ void BinanceMarketDataProducer::run()
             std::cout << "[BINANCE] Subscribed\n";
             EngineLogger::info("Subcribed to Binance Websocket.");
             receive_messages();
+            reconnect_attempt = 0;
         }
         catch (const std::exception& e)
         {
+            reconnect_attempt++;
             std::cerr << "[BINANCE] Error: "<< e.what() << '\n';
-            EngineLogger::error("Error ");
+            // EngineLogger::error("Error ");
+            EngineLogger::error(
+                std::string("WebSocket error: ") + e.what()
+            );
         }
-        cleanup();
+        // cleanup();
+
+        try
+        {
+            cleanup();
+        }
+        catch (...)
+        {
+            // Ignore cleanup errors.
+        }
+
         if (running)
         {
             std::cout << "[BINANCE] Reconnecting in 2 seconds...\n";
-            EngineLogger::warning("Reconnecting....");
-            std::this_thread::sleep_for(
-                std::chrono::seconds(2)
+            // EngineLogger::warning("Reconnecting....");
+            // std::this_thread::sleep_for(
+            //     std::chrono::seconds(2)
+            // );
+            int delay = std::min(16, (1 << (reconnect_attempt -1)));
+            EngineLogger::warning(
+                "Reconnecting in " +
+                std::to_string(delay) +
+                " seconds (attempt " +
+                std::to_string(reconnect_attempt) +
+                ")."
             );
+            std::this_thread::sleep_for(
+                std::chrono::seconds(delay)
+            );
+
+
         }
     }
 }

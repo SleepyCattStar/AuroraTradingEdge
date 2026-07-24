@@ -38,6 +38,37 @@ void BinanceMarketDataProducer::connect(){
         ssl::stream_base::client
     );
 
+    websocket_stream.control_callback(
+    [this](websocket::frame_type kind, beast::string_view payload)
+    {
+        switch (kind)
+        {
+            case websocket::frame_type::ping:
+                EngineLogger::info("Received WebSocket Ping.");
+                break;
+
+            case websocket::frame_type::pong:
+                EngineLogger::info("Received WebSocket Pong.");
+                break;
+
+            case websocket::frame_type::close:
+                EngineLogger::warning("WebSocket Close frame received.");
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////
+    // TODO:
+    // - Implement watchdog thread for idle connection detection.
+    // - Send periodic ping frames on inactivity.
+    // - Reconnect if heartbeat timeout occurs.
+    //////////////////////////////////////////////////////////////
+
+);
+
     // Upgrade the HTTPS connection to a WebSocket.
     websocket_stream.handshake(
         "stream.binance.com",

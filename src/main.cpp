@@ -4,6 +4,7 @@
 #include "safe_queue.hpp"
 #include "core/dispatcher.hpp"
 #include "logger/market_logger.hpp"
+#include "market/binance_market_data_producer.hpp"
 
 
 #include<chrono>
@@ -19,7 +20,8 @@ int main(void){
     // market analyser will provide info based on the analysis_queue
     MarketAnalyzer analyser(analysis_queue);
     MarketLogger logger(logger_queue, "market_data.csv");
-    MarketDataProducer producer(market_queue);
+    // MarketDataProducer producer(market_queue);
+    BinanceMarketDataProducer producer(market_queue);
     Dispatcher dispatcher(market_queue);
     
     ///////////////////////////////////
@@ -32,7 +34,17 @@ int main(void){
 
 
     //passing function pointer and object pointer
-    std::thread producer_thread(&MarketDataProducer::run,&producer);
+    // std::thread producer_thread(&MarketDataProducer::run,&producer);
+    std::thread producer_thread(&BinanceMarketDataProducer::run,&producer);
+
+    //////////////////////////////////////////////
+    // BETTER APPROACH IS USING LAMBDA function //
+    // std::thread producer_thread([&]()
+    //     {
+    //         producer.run();
+    //     });
+    //////////////////////////////////////////////
+
 
     //implementing dispatcher
     std::cout << "[ENGINE] Starting...\n";

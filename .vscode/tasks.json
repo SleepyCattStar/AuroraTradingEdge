@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Aurora",
+            "type": "shell",
+            "command": "cmake --build build -j$(nproc)",
+            "group": "build",
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Build Benchmarks",
+            "type": "shell",
+            "command": "cmake --build benchmarks/build -j$(nproc)",
+            "group": "build",
+            "problemMatcher": "$gcc"
+        }
+    ]
+}

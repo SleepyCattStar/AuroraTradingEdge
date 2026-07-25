@@ -29,6 +29,17 @@ void AnalyticsLogger::initialize(){
     {
         throw std::runtime_error("Failed to open analytics.csv");
     }
+    if (std::filesystem::file_size(log_directory / "analytics.csv") == 0)
+    {
+        log_file
+            << "events,"
+            << "average_latency_us,"
+            << "minimum_latency_us,"
+            << "maximum_latency_us\n";
+
+        log_file.flush();
+    }
+
     initialized = true;
 }
 
@@ -49,6 +60,8 @@ double average_latency, std::uint64_t minimum_latency, std::uint64_t maximum_lat
     }
 
     std::lock_guard<std::mutex> lock(mutex);
+
+    
 
     log_file
         << events << ","

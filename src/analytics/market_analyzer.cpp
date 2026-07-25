@@ -1,5 +1,6 @@
 #include "analytics/market_analyzer.hpp"
 #include "logger/engine_logger.hpp"
+#include "logger/analyzer_logger.hpp"
 #include<iostream>
 
 MarketAnalyzer::MarketAnalyzer(ThreadSafeQueue<MarketEvent>& queue)
@@ -34,7 +35,7 @@ void MarketAnalyzer::processEvent(const MarketEvent& event){
 
 void MarketAnalyzer::record_latency(std::uint64_t latency_us){
     event_count++;
-    if (event_count % 100 == 0)   // using 100 for testing
+    if (event_count % 20 == 0)   // using 100 for testing
     {
         print_latency_statistics();
     }
@@ -62,6 +63,7 @@ void MarketAnalyzer::print_latency_statistics()
         << "Maximum Latency  : " << max_latency_us << " us\n"
         << "=======================================\n";
 
+        /*
     EngineLogger::info(
         "Latency Benchmark | Events: " +
         std::to_string(event_count) +
@@ -69,6 +71,14 @@ void MarketAnalyzer::print_latency_statistics()
         " us Min: " + std::to_string(min_latency_us) +
         " us Max: " + std::to_string(max_latency_us) +
         " us"
+    );
+
+    */
+    AnalyticsLogger::logLatencyBenchmark(
+        event_count,
+        average,
+        min_latency_us,
+        max_latency_us
     );
 }
 

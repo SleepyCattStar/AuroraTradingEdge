@@ -123,3 +123,11 @@
 [2026-07-25 11:46:56] [INFO] Subscribed to BTCUSDT trades
 [2026-07-25 11:46:56] [INFO] Subcribed to Binance Websocket.
 [2026-07-25 11:47:09] [INFO] Received WebSocket Ping.
+[2026-07-25 19:04:32] [INFO] Connected to Binance Websocket.
+[2026-07-25 19:04:32] [INFO] Requesting subscription to btcusdt@trade
+[2026-07-25 19:04:32] [INFO] Subscribed to BTCUSDT trades
+[2026-07-25 19:04:32] [INFO] Subcribed to Binance Websocket.
+[2026-07-25 19:04:50] [INFO] Received WebSocket Ping.
+[2026-07-25 19:05:10] [INFO] Received WebSocket Ping.
+[2026-07-25 19:05:30] [INFO] Received WebSocket Ping.
+[2026-07-25 19:05:31] [ERROR] WebSocket error: stream truncated [asio.ssl.stream:1]

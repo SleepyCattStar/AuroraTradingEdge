@@ -97,6 +97,31 @@ AnalyzerStats MarketAnalyzer::getStats() const{
     return stats;
 }
 
+
+// to get the values so we can use it for our benchmark
+LatencyStats MarketAnalyzer::getLatencyStats() const
+{
+    LatencyStats stats;
+
+    stats.event_count = event_count;
+
+    if (event_count == 0)
+    {
+        stats.average_latency_us = 0.0;
+        stats.min_latency_us = 0;
+        stats.max_latency_us = 0;
+        return stats;
+    }
+
+    stats.average_latency_us =
+        static_cast<double>(total_latency_us) / event_count;
+
+    stats.min_latency_us = min_latency_us;
+    stats.max_latency_us = max_latency_us;
+
+    return stats;
+}
+
 void MarketAnalyzer::run(){
     running = true;
     while(running){

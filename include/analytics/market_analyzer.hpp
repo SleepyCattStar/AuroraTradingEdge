@@ -6,6 +6,14 @@
 #include<limits>
 // #include<climit>
 
+struct LatencyStats
+    {
+        std::uint64_t event_count;
+        double average_latency_us;
+        std::uint64_t min_latency_us;
+        std::uint64_t max_latency_us;
+    };
+
 class MarketAnalyzer{
     private:
         bool running;
@@ -21,7 +29,7 @@ class MarketAnalyzer{
         std::uint64_t max_latency_us = 0;
     
     public:
-        
+        LatencyStats getLatencyStats() const;
         AnalyzerStats getStats() const;   // getter
         void record_latency(std::uint64_t latency_us);
         void print_latency_statistics();

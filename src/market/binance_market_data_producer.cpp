@@ -277,4 +277,16 @@ void BinanceMarketDataProducer::run()
 
 void BinanceMarketDataProducer::stop(){
     running = false;
+
+    // IMPLEMENTED ERROR-HANDLING
+    try
+    {
+        websocket_stream.close(
+            websocket::close_code::normal
+        );
+    }
+    catch (const std::exception&)
+    {
+        // Connection may already be closed.
+    }
 }

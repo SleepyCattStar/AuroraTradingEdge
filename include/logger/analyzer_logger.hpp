@@ -18,6 +18,9 @@ public:
     std::uint64_t events,
     double average_latency,
     std::uint64_t minimum_latency,
-    std::uint64_t maximum_latency
+    std::uint64_t maximum_latency,
+    std::uint64_t p50_latency,
+    std::uint64_t p95_latency,
+    std::uint64_t p99_latency
     );
 };

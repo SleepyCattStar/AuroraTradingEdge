@@ -68,42 +68,6 @@ void MarketAnalyzer::record_latency(std::uint64_t latency_us){
     max_latency_us = std::max(latency_us, max_latency_us);
 }
 
-void MarketAnalyzer::print_latency_statistics()
-{
-    if (event_count == 0)
-    {
-        return;
-    }
-
-    double average =
-        static_cast<double>(total_latency_us) / event_count;
-
-    std::cout
-        << "\n========== LATENCY BENCHMARK ==========\n"
-        << "Events Processed : " << event_count << '\n'
-        << "Average Latency  : " << average << " us\n"
-        << "Minimum Latency  : " << min_latency_us << " us\n"
-        << "Maximum Latency  : " << max_latency_us << " us\n"
-        << "=======================================\n";
-
-        /*
-    EngineLogger::info(
-        "Latency Benchmark | Events: " +
-        std::to_string(event_count) +
-        " Avg: " + std::to_string(average) +
-        " us Min: " + std::to_string(min_latency_us) +
-        " us Max: " + std::to_string(max_latency_us) +
-        " us"
-    );
-
-    */
-    AnalyticsLogger::logLatencyBenchmark(
-        event_count,
-        average,
-        min_latency_us,
-        max_latency_us
-    );
-}
 
 AnalyzerStats MarketAnalyzer::getStats() const{
     AnalyzerStats stats;
@@ -149,6 +113,56 @@ LatencyStats MarketAnalyzer::getLatencyStats() const
         calculate_percentile(0.99);
 
     return stats;
+}
+
+
+void MarketAnalyzer::print_latency_statistics()
+{
+    if (event_count == 0)
+    {
+        return;
+    }
+
+    double average =
+        static_cast<double>(total_latency_us) / event_count;
+
+    std::cout
+        << "\n========== LATENCY BENCHMARK ==========\n"
+        << "Events Processed : " << event_count << '\n'
+        << "Average Latency  : " << average << " us\n"
+        << "Minimum Latency  : " << min_latency_us << " us\n"
+        << "Maximum Latency  : " << max_latency_us << " us\n"
+        << "=======================================\n";
+
+        /*
+    EngineLogger::info(
+        "Latency Benchmark | Events: " +
+        std::to_string(event_count) +
+        " Avg: " + std::to_string(average) +
+        " us Min: " + std::to_string(min_latency_us) +
+        " us Max: " + std::to_string(max_latency_us) +
+        " us"
+    );
+
+    */
+    
+    LatencyStats stats = getLatencyStats();
+
+    try{
+        AnalyticsLogger::logLatencyBenchmark(
+            stats.event_count,
+            stats.average_latency_us,
+            stats.min_latency_us,
+            stats.max_latency_us,
+            stats.p50_latency_us,
+            stats.p95_latency_us,
+            stats.p99_latency_us
+        );
+    }
+    catch (const std::exception& e){
+        EngineLogger::error(std::string("Failed to write to analytics.csv") + e.what());
+        std::cout << "[LOGGER] Unknown Error"<<"\n";
+    }
 }
 
 void MarketAnalyzer::run(){

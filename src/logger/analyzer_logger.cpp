@@ -35,7 +35,10 @@ void AnalyticsLogger::initialize(){
             << "events,"
             << "average_latency_us,"
             << "minimum_latency_us,"
-            << "maximum_latency_us\n";
+            << "maximum_latency_us,"
+            << "p50_latency_us,"
+            << "p95_latency_us,"
+            << "p99_latency_us\n";
 
         log_file.flush();
     }
@@ -43,8 +46,13 @@ void AnalyticsLogger::initialize(){
     initialized = true;
 }
 
-void AnalyticsLogger::logLatencyBenchmark(std::uint64_t events,
-double average_latency, std::uint64_t minimum_latency, std::uint64_t maximum_latency){
+void AnalyticsLogger::logLatencyBenchmark(    std::uint64_t events,
+    double average_latency,
+    std::uint64_t minimum_latency,
+    std::uint64_t maximum_latency,
+    std::uint64_t p50_latency,
+    std::uint64_t p95_latency,
+    std::uint64_t p99_latency){
 
     try
     {
@@ -62,13 +70,15 @@ double average_latency, std::uint64_t minimum_latency, std::uint64_t maximum_lat
     std::lock_guard<std::mutex> lock(mutex);
 
     
-
     log_file
-        << events << ","
-        << average_latency << ","
-        << minimum_latency << ","
-        << maximum_latency
-        << "\n";
+        << events << " , "
+        << average_latency << " , "
+        << minimum_latency << " , "
+        << maximum_latency << " , "
+        << p50_latency << " , "
+        << p95_latency << " , "
+        << p99_latency
+        << '\n';
 
     log_file.flush();
 

@@ -2,6 +2,7 @@
 #include "logger/engine_logger.hpp"
 #include "logger/analyzer_logger.hpp"
 #include<iostream>
+#include <algorithm>
 
 MarketAnalyzer::MarketAnalyzer(ThreadSafeQueue<MarketEvent>& queue)
     : queue(queue),
@@ -11,6 +12,28 @@ MarketAnalyzer::MarketAnalyzer(ThreadSafeQueue<MarketEvent>& queue)
       trade_count(0)
 {
     latency_samples.reserve(100000);
+}
+
+uint64_t MarketAnalyzer::calculate_percentile(double percentile) const{
+        if (latency_samples.empty())
+    {
+        return 0;
+    }
+
+    std::vector<std::uint64_t> sorted_samples =
+        latency_samples;
+
+    std::sort(
+        sorted_samples.begin(),
+        sorted_samples.end()
+    );
+
+    std::size_t index =
+        static_cast<std::size_t>(
+            percentile * (sorted_samples.size() - 1)
+        );
+
+    return sorted_samples[index];
 }
 
 void MarketAnalyzer::processEvent(const MarketEvent& event){
@@ -118,6 +141,12 @@ LatencyStats MarketAnalyzer::getLatencyStats() const
 
     stats.min_latency_us = min_latency_us;
     stats.max_latency_us = max_latency_us;
+    stats.p50_latency_us =
+    calculate_percentile(0.50);
+    stats.p95_latency_us =
+        calculate_percentile(0.95);
+    stats.p99_latency_us =
+        calculate_percentile(0.99);
 
     return stats;
 }

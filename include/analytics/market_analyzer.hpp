@@ -12,6 +12,9 @@ struct LatencyStats
         double average_latency_us;
         std::uint64_t min_latency_us;
         std::uint64_t max_latency_us;
+        std::uint64_t p50_latency_us;
+        std::uint64_t p95_latency_us;
+        std::uint64_t p99_latency_us;
     };
 
 class MarketAnalyzer{
@@ -27,6 +30,7 @@ class MarketAnalyzer{
         std::uint64_t min_latency_us{std::numeric_limits<std::uint64_t>::max()};
         // basically equivalent of int min = INT_MAX; 
         std::uint64_t max_latency_us = 0;
+        std::uint64_t calculate_percentile(double percentile) const;
     
     public:
         LatencyStats getLatencyStats() const;

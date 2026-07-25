@@ -7,6 +7,12 @@
 #include <iostream>
 #include <thread>
 
+#include<filesystem>
+
+//TO-DO 
+// LOG THIS BENCHMARKED RESULT INTO A FILE in logs/ inside benchmarks/
+//
+
 constexpr int benchmark_duration_seconds = 60;
 
 
@@ -63,7 +69,14 @@ int main()
         << stats.min_latency_us << " us\n"
         << "Maximum Latency    : "
         << stats.max_latency_us << " us\n"
+        << "P50 Latency        : "
+        << stats.p50_latency_us << " us\n"
+        << "P95 Latency        : "
+        << stats.p95_latency_us << " us\n"
+        << "P99 Latency        : "
+        << stats.p99_latency_us << " us\n"
         << "========================================\n";
+
 
     return 0;
 }

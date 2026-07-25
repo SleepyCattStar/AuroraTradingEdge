@@ -51,7 +51,15 @@ void MarketAnalyzer::run(){
     while(running){
         MarketEvent event;
         if(queue.pop(event)){
+            auto analyzer_receive_time = std::chrono::steady_clock::now();
             processEvent(event);
+
+            auto latency =
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    analyzer_receive_time - event.engine_receive_time
+                );
+
+            std::cout << "Engine latency: "<< latency.count()<< " us\n";
         }
     }
     /*

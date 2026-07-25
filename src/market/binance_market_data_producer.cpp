@@ -164,6 +164,9 @@ void BinanceMarketDataProducer::receive_messages(){
         // flat_buffer is like a temporary storage/container
         beast::flat_buffer buffer;
         websocket_stream.read(buffer);
+
+        // MEASURING ENGINE'S PACKET PROCESSING SPEED before its given to the analyzer
+        auto receive_time = std::chrono::steady_clock::now();
         std::string message = beast::buffers_to_string(buffer.data());
         auto json = nlohmann::json::parse(message);
 
@@ -184,6 +187,7 @@ void BinanceMarketDataProducer::receive_messages(){
         try
             {
                 MarketEvent event = parse_message(message);
+                event.engine_receive_time = receive_time;   
                 queue.push(event);
             }
         catch(...)

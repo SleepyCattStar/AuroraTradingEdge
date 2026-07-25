@@ -35,6 +35,7 @@ MarketEvent MarketDataProducer::generateMarketEvent(){
     return MarketEvent{
         symbol,
         timestamp,
+        std::chrono::steady_clock::now(),
         exchange,
         event_type,
         price,

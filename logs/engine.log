@@ -32,3 +32,17 @@
 [2026-07-24 23:41:00] [INFO] Requesting subscription to testingrandomusdt@trade
 [2026-07-24 23:41:00] [INFO] Subscribed to BTCUSDT trades
 [2026-07-24 23:41:00] [INFO] Subcribed to Binance Websocket.
+[2026-07-25 10:39:34] [INFO] Connected to Binance Websocket.
+[2026-07-25 10:39:34] [INFO] Requesting subscription to btcusdt@trade
+[2026-07-25 10:39:34] [INFO] Requesting subscription to ethusdt@trade
+[2026-07-25 10:39:34] [INFO] Requesting subscription to solusdt@trade
+[2026-07-25 10:39:34] [INFO] Requesting subscription to testingrandomusdt@trade
+[2026-07-25 10:39:34] [INFO] Subscribed to BTCUSDT trades
+[2026-07-25 10:39:34] [INFO] Subcribed to Binance Websocket.
+[2026-07-25 10:46:21] [INFO] Connected to Binance Websocket.
+[2026-07-25 10:46:21] [INFO] Requesting subscription to btcusdt@trade
+[2026-07-25 10:46:21] [INFO] Requesting subscription to ethusdt@trade
+[2026-07-25 10:46:21] [INFO] Requesting subscription to solusdt@trade
+[2026-07-25 10:46:21] [INFO] Requesting subscription to testingrandomusdt@trade
+[2026-07-25 10:46:21] [INFO] Subscribed to BTCUSDT trades
+[2026-07-25 10:46:21] [INFO] Subcribed to Binance Websocket.

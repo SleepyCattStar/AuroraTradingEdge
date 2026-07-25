@@ -20,6 +20,7 @@ struct MarketEvent{
     std::string symbol;
     // std::chrono::steady_clock::time_point timestamp;
     std::chrono::system_clock::time_point timestamp;
+    std::chrono::steady_clock::time_point engine_receive_time;   // for benchmarking latency
     Exchange exchange;
     EventType event_type;
     double price;

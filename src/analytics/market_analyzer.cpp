@@ -1,4 +1,5 @@
 #include "analytics/market_analyzer.hpp"
+#include "logger/engine_logger.hpp"
 #include<iostream>
 
 MarketAnalyzer::MarketAnalyzer(ThreadSafeQueue<MarketEvent>& queue)
@@ -8,7 +9,7 @@ MarketAnalyzer::MarketAnalyzer(ThreadSafeQueue<MarketEvent>& queue)
       total_trade_value(0.0),
       trade_count(0)
 {
-
+    latency_samples.reserve(100000);
 }
 
 void MarketAnalyzer::processEvent(const MarketEvent& event){
@@ -29,6 +30,46 @@ void MarketAnalyzer::processEvent(const MarketEvent& event){
         std::cout << "VWAP   : " << stats.vwap << "\n";
         std::cout << "=========================\n";
     }
+}
+
+void MarketAnalyzer::record_latency(std::uint64_t latency_us){
+    event_count++;
+    if (event_count % 100 == 0)   // using 100 for testing
+    {
+        print_latency_statistics();
+    }
+    total_latency_us += latency_us;
+    latency_samples.push_back(latency_us);
+    min_latency_us = std::min(latency_us, min_latency_us);
+    max_latency_us = std::max(latency_us, max_latency_us);
+}
+
+void MarketAnalyzer::print_latency_statistics()
+{
+    if (event_count == 0)
+    {
+        return;
+    }
+
+    double average =
+        static_cast<double>(total_latency_us) / event_count;
+
+    std::cout
+        << "\n========== LATENCY BENCHMARK ==========\n"
+        << "Events Processed : " << event_count << '\n'
+        << "Average Latency  : " << average << " us\n"
+        << "Minimum Latency  : " << min_latency_us << " us\n"
+        << "Maximum Latency  : " << max_latency_us << " us\n"
+        << "=======================================\n";
+
+    EngineLogger::info(
+        "Latency Benchmark | Events: " +
+        std::to_string(event_count) +
+        " Avg: " + std::to_string(average) +
+        " us Min: " + std::to_string(min_latency_us) +
+        " us Max: " + std::to_string(max_latency_us) +
+        " us"
+    );
 }
 
 AnalyzerStats MarketAnalyzer::getStats() const{
@@ -54,12 +95,15 @@ void MarketAnalyzer::run(){
             auto analyzer_receive_time = std::chrono::steady_clock::now();
             processEvent(event);
 
-            auto latency =
-                std::chrono::duration_cast<std::chrono::microseconds>(
-                    analyzer_receive_time - event.engine_receive_time
-                );
+        auto latency =
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                analyzer_receive_time - event.engine_receive_time
+            );
 
-            std::cout << "Engine latency: "<< latency.count()<< " us\n";
+        record_latency(latency.count());
+
+        // Optional for debugging
+        std::cout << "Engine latency: " << latency.count() << " us\n";
         }
     }
     /*
@@ -78,6 +122,7 @@ void MarketAnalyzer::run(){
 }
 
 void MarketAnalyzer::stop(){
+    std::cout << "Event count :" <<event_count << "\n";
     running = false;
 }
 

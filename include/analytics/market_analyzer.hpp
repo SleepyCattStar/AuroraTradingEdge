@@ -4,6 +4,7 @@
 #include "analytics/analyzer_stats.hpp"
 #include<vector>
 #include<limits>
+// #include<climit>
 
 class MarketAnalyzer{
     private:
@@ -15,8 +16,8 @@ class MarketAnalyzer{
         std::vector<std::uint64_t> latency_samples;
         std::uint64_t total_latency_us = 0;
         std::uint64_t event_count = 0;
-        std::uint64_t min_latency_us =
-        std::numeric_limits<std::uint64_t>::max();
+        std::uint64_t min_latency_us{std::numeric_limits<std::uint64_t>::max()};
+        // basically equivalent of int min = INT_MAX; 
         std::uint64_t max_latency_us = 0;
     
     public:

@@ -14,12 +14,13 @@ add_executable(aurora
     src/main.cpp
     src/market/market_data_producer.cpp
     src/market/market_data_consumer.cpp
+    src/market/binance_market_data_producer.cpp
     src/utils/formatter.cpp
     src/core/dispatcher.cpp
     src/analytics/market_analyzer.cpp
     src/logger/market_logger.cpp
-    src/market/binance_market_data_producer.cpp
     src/logger/engine_logger.cpp
+    src/logger/analyzer_logger.cpp
 )
 
 

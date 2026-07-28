@@ -66,7 +66,9 @@ int main(void){
     std::thread analyser_thread(&MarketAnalyzer::run, &analyser);
     std::thread logger_thread(&MarketLogger::run, &logger);
 
-    std::this_thread::sleep_for(std::chrono::seconds(30));
+    int seconds = 70;
+    std::this_thread::sleep_for(std::chrono::seconds(seconds));
+    std::cout << "[ENGINE] Running for " << seconds <<"seconds \n";
 
 
     // STOPPING THE CREATED OBJECTS

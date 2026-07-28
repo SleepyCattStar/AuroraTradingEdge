@@ -1,8 +1,12 @@
 #include "analytics/market_analyzer.hpp"
 #include "logger/engine_logger.hpp"
 #include "logger/analyzer_logger.hpp"
+#include "analytics/ohlc_aggregator.hpp"
 #include<iostream>
 #include <algorithm>
+
+
+OHLCAggregator ohlc_aggregator{std::chrono::minutes(1)};
 
 MarketAnalyzer::MarketAnalyzer(ThreadSafeQueue<MarketEvent>& queue)
     : queue(queue),
@@ -54,6 +58,7 @@ void MarketAnalyzer::processEvent(const MarketEvent& event){
         std::cout << "VWAP   : " << stats.vwap << "\n";
         std::cout << "=========================\n";
     }
+    ohlc_aggregator.processTrade(event);
 }
 
 void MarketAnalyzer::record_latency(std::uint64_t latency_us){

@@ -18,9 +18,11 @@ add_executable(aurora
     src/utils/formatter.cpp
     src/core/dispatcher.cpp
     src/analytics/market_analyzer.cpp
+    src/analytics/ohlc_aggregator.cpp
     src/logger/market_logger.cpp
     src/logger/engine_logger.cpp
     src/logger/analyzer_logger.cpp
+    src/logger/ohlc_logger.cpp
 )
 
 

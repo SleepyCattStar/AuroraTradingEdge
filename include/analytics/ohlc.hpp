@@ -16,6 +16,6 @@ struct OHLC{
     double volume = 0.0;
     std::uint64_t trade_count;
 
-    std::chrono::system_clock::time_point timestamp;
+    std::chrono::system_clock::time_point minute_start;  // the starting minute with this price
 
 };

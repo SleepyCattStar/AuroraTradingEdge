@@ -131,3 +131,25 @@
 [2026-07-25 19:05:10] [INFO] Received WebSocket Ping.
 [2026-07-25 19:05:30] [INFO] Received WebSocket Ping.
 [2026-07-25 19:05:31] [ERROR] WebSocket error: stream truncated [asio.ssl.stream:1]
+[2026-07-28 17:49:37] [INFO] Connected to Binance Websocket.
+[2026-07-28 17:49:37] [INFO] Requesting subscription to btcusdt@trade
+[2026-07-28 17:49:37] [INFO] Requesting subscription to ethusdt@trade
+[2026-07-28 17:49:37] [INFO] Requesting subscription to solusdt@trade
+[2026-07-28 17:49:37] [INFO] Requesting subscription to testingrandomusdt@trade
+[2026-07-28 17:49:37] [INFO] Subscribed to BTCUSDT trades
+[2026-07-28 17:49:37] [INFO] Subcribed to Binance Websocket.
+[2026-07-28 17:49:51] [INFO] Received WebSocket Ping.
+[2026-07-28 17:50:11] [INFO] Received WebSocket Ping.
+[2026-07-28 17:50:31] [INFO] Received WebSocket Ping.
+[2026-07-28 18:09:27] [INFO] Connected to Binance Websocket.
+[2026-07-28 18:09:27] [INFO] Requesting subscription to btcusdt@trade
+[2026-07-28 18:09:27] [INFO] Requesting subscription to ethusdt@trade
+[2026-07-28 18:09:27] [INFO] Requesting subscription to solusdt@trade
+[2026-07-28 18:09:27] [INFO] Requesting subscription to testingrandomusdt@trade
+[2026-07-28 18:09:27] [INFO] Subscribed to BTCUSDT trades
+[2026-07-28 18:09:27] [INFO] Subcribed to Binance Websocket.
+[2026-07-28 18:09:33] [INFO] Received WebSocket Ping.
+[2026-07-28 18:09:53] [INFO] Received WebSocket Ping.
+[2026-07-28 18:10:13] [INFO] Received WebSocket Ping.
+[2026-07-28 18:10:33] [INFO] Received WebSocket Ping.
+[2026-07-28 18:10:37] [WARNING] WebSocket Close frame received.

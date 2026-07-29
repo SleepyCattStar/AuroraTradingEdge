@@ -23,6 +23,8 @@ add_executable(aurora
     src/logger/engine_logger.cpp
     src/logger/analyzer_logger.cpp
     src/logger/ohlc_logger.cpp
+    src/monitoring/metrics_server.cpp
+    src/monitoring/metrics.cpp
 )
 
 

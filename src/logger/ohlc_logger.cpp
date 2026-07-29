@@ -1,9 +1,11 @@
 #include "logger/ohlc_logger.hpp"
 #include "utils/formatter.hpp" // for timestamp formatting
-
-std::ofstream OHLCLogger::ohlc_logfile;
+#include "logger/engine_logger.hpp"
+// std::ofstream OHLCLogger::ohlc_logfile;
+std::unordered_map<std::string, std::ofstream>
+    OHLCLogger::ohlc_logfiles;
 std::mutex OHLCLogger::mutex;
-bool OHLCLogger::initialized = false;
+// bool OHLCLogger::initialized = false;
 
 ///////////////////////////////////////////////////
 // BETTER STRUCTURE TO IMPLEMENT LATER ON //
@@ -13,28 +15,64 @@ bool OHLCLogger::initialized = false;
 
 
 
+std::string OHLCLogger::getFilename(
+    std::chrono::seconds interval
+)
+{
+    switch (interval.count())
+    {
+    case 60:
+        return "ohlc_1m.csv";
+
+    case 300:
+        return "ohlc_5m.csv";
+
+    case 900:
+        return "ohlc_15m.csv";
+
+    case 3600:
+        return "ohlc_1h.csv";
+
+    default:
+        return "ohlc_unknown.csv";
+    }
+}
+
+
 // very similar to any other logger
-void OHLCLogger::initialize(){
-    if (initialized)
+void OHLCLogger::initialize(std::chrono::seconds interval)
+{
+    // std::string filename;
+    std::string filename = getFilename(interval);
+
+    if (ohlc_logfiles.contains(filename))
     {
         return;
     }
+
     std::filesystem::path log_directory =
         std::filesystem::path(PROJECT_ROOT) / "logs";
 
     std::filesystem::create_directories(log_directory);
 
-    ohlc_logfile.open(
-        log_directory / "ohlc.csv",
+    auto file_path = log_directory / filename;
+
+    ohlc_logfiles[filename].open(
+        file_path,
         std::ios::app
     );
-    if (!ohlc_logfile.is_open())
+
+    if (!ohlc_logfiles[filename].is_open())
     {
-        throw std::runtime_error("Failed to open ohlc.csv");
+        EngineLogger::error(
+        "OHLCLogger: Failed to open " + filename
+        );
+        throw std::runtime_error("Failed to open " + filename);
     }
-    if (std::filesystem::file_size(log_directory / "ohlc.csv") == 0)
+
+    if (std::filesystem::file_size(file_path) == 0)
     {
-        ohlc_logfile
+        ohlc_logfiles[filename]
             << "symbol,"
             << "interval_start,"
             << "open,"
@@ -44,25 +82,25 @@ void OHLCLogger::initialize(){
             << "volume,"
             << "trade_count\n";
 
-        ohlc_logfile.flush();
+        ohlc_logfiles[filename].flush();
     }
-
-    initialized = true;
 }
 
-
-void OHLCLogger::logohlcevent(const OHLC &candle){
-    if (!initialized)
-    {
-        initialize();
-    }
+void OHLCLogger::logOHLCEvent(
+    const OHLC& candle,
+    std::chrono::seconds interval
+)
+{
+    initialize(interval);
 
     std::lock_guard<std::mutex> lock(mutex);
 
-    //format_timestamp from the utils/formatter.hpp
-    ohlc_logfile
+    std::string filename =
+        getFilename(interval);
+        
+    ohlc_logfiles[filename]
         << candle.symbol << ","
-        << format_timestamp(candle.minute_start) << ","
+        <<format_timestamp(candle.minute_start) << ","
         << candle.open << ","
         << candle.high << ","
         << candle.low << ","
@@ -71,5 +109,5 @@ void OHLCLogger::logohlcevent(const OHLC &candle){
         << candle.trade_count
         << '\n';
 
-    ohlc_logfile.flush();
+    ohlc_logfiles[filename].flush();
 }

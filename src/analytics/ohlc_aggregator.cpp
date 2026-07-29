@@ -68,5 +68,5 @@ void OHLCAggregator::processTrade(const MarketEvent& event){
 }
 
 void OHLCAggregator::finalizeCandle(const OHLC& candle){
-    OHLCLogger::logohlcevent(candle);
+    OHLCLogger::logOHLCEvent(candle,interval_);
 }

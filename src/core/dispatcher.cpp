@@ -1,4 +1,5 @@
 #include "core/dispatcher.hpp"
+#include "monitoring/metrics.hpp"
 
 
 Dispatcher::Dispatcher(ThreadSafeQueue<MarketEvent>& input_queue)
@@ -18,6 +19,8 @@ void Dispatcher::run(){
     while(running){
         MarketEvent event;
         if(input_queue.pop(event)){
+            Metrics::setQueueDepth(input_queue.size());
+
             for (auto* subscriber : subscribers)
                 {
                     // auto* subscriber, each element in subscribers is [ ThreadSafeQueue<MarketEvent>* ]

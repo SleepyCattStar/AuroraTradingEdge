@@ -5,6 +5,8 @@
 #include "core/dispatcher.hpp"
 #include "logger/market_logger.hpp"
 #include "market/binance_market_data_producer.hpp"
+// #include "monitoring/metrics.hpp"
+#include "monitoring/metrics_server.hpp"
 
 
 #include<chrono>
@@ -15,6 +17,7 @@ int main(void){
     ThreadSafeQueue<MarketEvent> market_queue;
     ThreadSafeQueue<MarketEvent> analysis_queue;
     ThreadSafeQueue<MarketEvent> logger_queue;
+    MetricsServer metrics_server(8080);
 
     //
     // market analyser will provide info based on the analysis_queue
@@ -62,6 +65,7 @@ int main(void){
 
     //implementing dispatcher
     std::cout << "[ENGINE] Starting...\n";
+    metrics_server.start();
     std::thread dispatcher_thread(&Dispatcher::run, &dispatcher);
     std::thread analyser_thread(&MarketAnalyzer::run, &analyser);
     std::thread logger_thread(&MarketLogger::run, &logger);
@@ -76,6 +80,7 @@ int main(void){
     dispatcher.stop();
     analyser.stop();
     logger.stop();
+    metrics_server.stop();
 
     // SHUTTING DOWN THE QUEUES
     market_queue.shutdown();

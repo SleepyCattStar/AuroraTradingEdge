@@ -3,6 +3,7 @@
 #include<algorithm>
 #include <iostream>
 #include <string>
+#include<monitoring/metrics.hpp>
 // #include <nlohmann/json.hpp>
 
 
@@ -188,6 +189,7 @@ void BinanceMarketDataProducer::receive_messages(){
             {
                 MarketEvent event = parse_message(message);
                 event.engine_receive_time = receive_time;   
+                Metrics::incrementMessagesReceived();
                 queue.push(event);
             }
         catch(...)

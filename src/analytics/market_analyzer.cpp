@@ -2,6 +2,7 @@
 #include "logger/engine_logger.hpp"
 #include "logger/analyzer_logger.hpp"
 #include "analytics/ohlc_aggregator.hpp"
+#include "monitoring/metrics.hpp"
 #include<iostream>
 #include <algorithm>
 
@@ -59,6 +60,7 @@ void MarketAnalyzer::processEvent(const MarketEvent& event){
         std::cout << "=========================\n";
     }
     ohlc_aggregator.processTrade(event);
+    Metrics::incrementTradesProcessed();  // added a counter for trade once its 
 }
 
 void MarketAnalyzer::record_latency(std::uint64_t latency_us){
@@ -107,6 +109,9 @@ LatencyStats MarketAnalyzer::getLatencyStats() const
 
     stats.average_latency_us =
         static_cast<double>(total_latency_us) / event_count;
+    
+    // updating the info on the localhost:8080
+    Metrics::setAverageLatency(stats.average_latency_us);
 
     stats.min_latency_us = min_latency_us;
     stats.max_latency_us = max_latency_us;
@@ -116,6 +121,7 @@ LatencyStats MarketAnalyzer::getLatencyStats() const
         calculate_percentile(0.95);
     stats.p99_latency_us =
         calculate_percentile(0.99);
+    Metrics::setP99Latency(stats.p99_latency_us);
 
     return stats;
 }

@@ -240,3 +240,39 @@
 [2026-08-03 23:28:07] [INFO] Subcribed to Binance Websocket.
 [2026-08-03 23:28:35] [INFO] Received WebSocket Ping.
 [2026-08-03 23:28:55] [INFO] Received WebSocket Ping.
+[2026-08-03 23:39:13] [INFO] Connected to Binance Websocket.
+[2026-08-03 23:39:13] [INFO] Requesting subscription to btcusdt@trade
+[2026-08-03 23:39:13] [INFO] Requesting subscription to ethusdt@trade
+[2026-08-03 23:39:13] [INFO] Requesting subscription to solusdt@trade
+[2026-08-03 23:39:13] [INFO] Requesting subscription to testingrandomusdt@trade
+[2026-08-03 23:39:13] [INFO] Subscribed to BTCUSDT trades
+[2026-08-03 23:39:13] [INFO] Subcribed to Binance Websocket.
+[2026-08-03 23:39:24] [INFO] Received WebSocket Ping.
+[2026-08-03 23:39:44] [INFO] Received WebSocket Ping.
+[2026-08-03 23:40:04] [INFO] Received WebSocket Ping.
+[2026-08-03 23:40:24] [INFO] Received WebSocket Ping.
+[2026-08-03 23:40:44] [INFO] Received WebSocket Ping.
+[2026-08-03 23:41:04] [INFO] Received WebSocket Ping.
+[2026-08-03 23:41:24] [INFO] Received WebSocket Ping.
+[2026-08-03 23:41:44] [INFO] Received WebSocket Ping.
+[2026-08-03 23:41:45] [ERROR] [METRICS] MetricsServer: end of stream [beast.http:1 at /usr/include/boost/beast/http/impl/read.hpp:366:13 in function 'std::size_t boost::beast::http::detail::read_some(SyncReadStream&, DynamicBuffer&, boost::beast::http::basic_parser<isRequest>&, boost::beast::error_code&)']
+[2026-08-03 23:42:04] [INFO] Received WebSocket Ping.
+[2026-08-03 23:42:24] [INFO] Received WebSocket Ping.
+[2026-08-03 23:45:13] [INFO] Connected to Binance Websocket.
+[2026-08-03 23:45:13] [INFO] Requesting subscription to btcusdt@trade
+[2026-08-03 23:45:13] [INFO] Requesting subscription to ethusdt@trade
+[2026-08-03 23:45:13] [INFO] Requesting subscription to solusdt@trade
+[2026-08-03 23:45:13] [INFO] Requesting subscription to testingrandomusdt@trade
+[2026-08-03 23:45:13] [INFO] Subscribed to BTCUSDT trades
+[2026-08-03 23:45:13] [INFO] Subcribed to Binance Websocket.
+[2026-08-03 23:45:38] [INFO] Received WebSocket Ping.
+[2026-08-03 23:45:58] [INFO] Received WebSocket Ping.
+[2026-08-03 23:46:18] [INFO] Received WebSocket Ping.
+[2026-08-03 23:46:38] [INFO] Received WebSocket Ping.
+[2026-08-03 23:46:58] [INFO] Received WebSocket Ping.
+[2026-08-03 23:47:18] [INFO] Received WebSocket Ping.
+[2026-08-03 23:47:38] [INFO] Received WebSocket Ping.
+[2026-08-03 23:47:58] [INFO] Received WebSocket Ping.
+[2026-08-03 23:48:18] [INFO] Received WebSocket Ping.
+[2026-08-03 23:48:33] [ERROR] WebSocket error: Operation canceled [system:125 at /usr/include/boost/beast/websocket/impl/stream_impl.hpp:355:13 in function 'bool boost::beast::websocket::stream< <template-parameter-1-1>, <anonymous> >::impl_type::check_stop_now(boost::beast::error_code&)']
+[2026-08-03 23:48:33] [INFO] [METRICS] Metrics server stopped.

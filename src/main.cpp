@@ -70,7 +70,7 @@ int main(void){
     std::thread analyser_thread(&MarketAnalyzer::run, &analyser);
     std::thread logger_thread(&MarketLogger::run, &logger);
 
-    int seconds = 70;
+    int seconds = 200;
     std::this_thread::sleep_for(std::chrono::seconds(seconds));
     std::cout << "[ENGINE] Running for " << seconds <<"seconds \n";
 

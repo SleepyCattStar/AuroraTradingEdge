@@ -231,3 +231,12 @@
 [2026-07-30 13:55:35] [INFO] Received WebSocket Ping.
 [2026-07-30 13:55:55] [INFO] Received WebSocket Ping.
 [2026-07-30 13:56:15] [INFO] Received WebSocket Ping.
+[2026-08-03 23:28:07] [INFO] Connected to Binance Websocket.
+[2026-08-03 23:28:07] [INFO] Requesting subscription to btcusdt@trade
+[2026-08-03 23:28:07] [INFO] Requesting subscription to ethusdt@trade
+[2026-08-03 23:28:07] [INFO] Requesting subscription to solusdt@trade
+[2026-08-03 23:28:07] [INFO] Requesting subscription to testingrandomusdt@trade
+[2026-08-03 23:28:07] [INFO] Subscribed to BTCUSDT trades
+[2026-08-03 23:28:07] [INFO] Subcribed to Binance Websocket.
+[2026-08-03 23:28:35] [INFO] Received WebSocket Ping.
+[2026-08-03 23:28:55] [INFO] Received WebSocket Ping.
